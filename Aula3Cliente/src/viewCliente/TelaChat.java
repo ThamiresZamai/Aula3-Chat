@@ -1,18 +1,21 @@
 package viewCliente;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.Naming;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import br.com.chat.DAO.PedidoDAO;
+import br.com.chat.entidade.Pedido;
+import util.IChatAula;
 
 public class TelaChat extends JFrame {
 
@@ -28,8 +31,14 @@ public class TelaChat extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaChat frame = new TelaChat();
-					frame.setVisible(true);
+					//IChatAula objPedido = (IChatAula) Naming.lookup("rmi://localhost:5432/cast");
+					PedidoDAO pedidoDAO  = new PedidoDAO();
+					Pedido pedido = new Pedido();
+					pedido = pedidoDAO .selectTo("1");
+					
+					//TelaChat frame = new TelaChat();
+					//frame.setVisible(true);
+					
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,7 +91,7 @@ public class TelaChat extends JFrame {
 
 				indexChat++;
 
-				if (indexChat == 4) {
+				if (indexChat == 3) {
 					indexChat = 0;
 					textArea.setText("");
 				}
@@ -95,10 +104,9 @@ public class TelaChat extends JFrame {
 		txtResposta.setFocusable(true);
 		textArea.setText("");
 
-		chatArray[0] = "\n(Robo): Bem vindo, ao Chat, Qual é o seu nome?";
+		chatArray[0] = "\n(Robo): Bem vindo, ao Chat de consulta de pedidos, Qual é o seu nome?";
 		chatArray[1] = " qual é o número do pedido?";
-		chatArray[2] = "\n(Robo): Qual é o número da nota fiscal?";
-		chatArray[3] = "\n(Robo): O status do seu pedido é: PENDENTE \n";
+		chatArray[2] = "\n(Robo): O status do seu pedido é: PENDENTE \n";
 		indexChat = 0;
 		nomeUsuario = "";
 		chat();
@@ -114,7 +122,7 @@ public class TelaChat extends JFrame {
 		else
 			textArea.setText(textArea.getText() + chatArray[indexChat]);
 
-		if (indexChat == 3) {
+		if (indexChat == 2) {
 			btnEnviar.setText("Resetar");
 		} else if (indexChat == 0) {
 			btnEnviar.setText("Enviar");

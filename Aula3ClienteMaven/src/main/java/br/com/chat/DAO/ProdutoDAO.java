@@ -6,22 +6,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import br.com.chat.entidade.Chat;
+import br.com.chat.entidade.Produto;
 
-public class ChatDAO {
+public class ProdutoDAO {
 
 	private EntityManager em;
 	
-	public ChatDAO() {
+	public ProdutoDAO() {
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Banco");
 	em = emf.createEntityManager();
 	}
 	
 	
-	public boolean insert(Chat chat) {
+	public boolean insert(Produto prod) {
 		try {
 			em.getTransaction().begin();
-			em.persist(chat);
+			em.persist(prod);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -31,10 +31,10 @@ public class ChatDAO {
 		return true;
 	}
 	
-	public boolean update(Chat chat) {
+	public boolean update(Produto prod) {
 		try {
 			em.getTransaction().begin();
-			em.merge(chat);
+			em.merge(prod);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -43,11 +43,11 @@ public class ChatDAO {
 		return true;
 	}
 	
-	public boolean delete (Chat chat) {
+	public boolean delete (Produto prod) {
 		try {
 			em.getTransaction().begin();
-			chat = em.find(Chat.class, chat.getUser());
-			em.remove(chat);
+			prod = em.find(Produto.class, prod.getId());
+			em.remove(prod);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -56,20 +56,20 @@ public class ChatDAO {
 		return true;
 	}
 	
-	public Chat selectTo (String user) {
+	public Produto selectTo (String prod) {
 		try {
 			em.getTransaction().begin();
-			Chat chat = em.find(Chat.class, user);
+			Produto produto = em.find(Produto.class, prod);
 			em.getTransaction().commit();
 			em.close();
-			return chat;
+			return produto;
 		} catch (Exception e) {
 		}
 		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Chat> selectAll () {
-		return em.createQuery("FROM " + Chat.class.getName()).getResultList();
+	public List<Produto> selectAll () {
+		return em.createQuery("FROM " + Produto.class.getName()).getResultList();
 	}
 }
