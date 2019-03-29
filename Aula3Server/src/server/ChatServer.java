@@ -10,11 +10,16 @@ public class ChatServer {
 
 	public ChatServer() throws RemoteException{
 		try {
+		
+		
 			LocateRegistry.createRegistry(5432);
 			System.out.println("INICIO");
 			Naming.rebind("rmi://localhost:5432/cast", new ChatAula());
 			System.out.println("FIM");
+			
+			
 		} catch (Exception e) {
+			System.out.println("erro");
 			e.printStackTrace();
 		}
 	}

@@ -35,6 +35,7 @@ public class ChatAula extends UnicastRemoteObject implements IChatAula{
 
 	@Override
 	public Pedido selectTo(String ped) throws RemoteException {
+		//return null;
 		return pedidoDao.selectTo(ped);
 		
 	}

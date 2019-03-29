@@ -3,7 +3,6 @@ package viewCliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.Naming;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.chat.DAO.PedidoDAO;
 import br.com.chat.entidade.Pedido;
-import util.IChatAula;
 
 public class TelaChat extends JFrame {
 
@@ -31,16 +29,23 @@ public class TelaChat extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//IChatAula objPedido = (IChatAula) Naming.lookup("rmi://localhost:5432/cast");
-					PedidoDAO pedidoDAO  = new PedidoDAO();
-					Pedido pedido = new Pedido();
-					pedido = pedidoDAO .selectTo("1");
+		            
+//			            System.out.println("About to try to print!");
+//			            
+//			            String messageToEcho = "Hi from the client!";
+//			            if( args.length > 0 ){
+//			                messageToEcho = args[ 0 ];
+//			            }
+//			            int returnVal = comp.echoMessage( messageToEcho );
+//			            
+//			            System.out.println( "The return value from the server is: " + returnVal );
 					
-					//TelaChat frame = new TelaChat();
-					//frame.setVisible(true);
+				    TelaChat frame = new TelaChat();
+					frame.setVisible(true);
 					
 
 				} catch (Exception e) {
+					System.out.println("erro");
 					e.printStackTrace();
 				}
 			}
@@ -76,15 +81,25 @@ public class TelaChat extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				String valor = txtResposta.getText();
+				
 
 				if (indexChat == 0) {
 					nomeUsuario = valor;
+					textArea.setText(textArea.getText() + "\n" + "(" + nomeUsuario + "):" + valor);
+					
+				}else if(indexChat == 1) {
+					n_pedido = valor;
+					Pedido p = new Pedido();
+					PedidoDAO pdao = new PedidoDAO();
+					
+					textArea.setText(textArea.getText() + "\n" + "(" + nomeUsuario + "): N° do Pedido: "+valor + "\nDescrição do Pedido : "+p.getDescricao()+
+										"\nStatus: "+p.getStatus()+"\nData de Compra: "+p.getDt_compra());
 				}
 
 				// if (indexChat == 0)
 				// textArea.setText(textArea.getText() + "\n" + valor);
 				// else
-				textArea.setText(textArea.getText() + "\n" + "(" + nomeUsuario + "):" + valor);
+				
 
 				txtResposta.setText("");
 				txtResposta.setFocusable(true);
@@ -115,7 +130,9 @@ public class TelaChat extends JFrame {
 	private String[] chatArray = new String[5];
 	private int indexChat;
 	private String nomeUsuario = "";
-
+	private String n_pedido = "";
+   
+    
 	private void chat()  {
 		if (indexChat == 1)
 			textArea.setText(textArea.getText() + "\n(Robo): " + nomeUsuario + chatArray[indexChat]);
